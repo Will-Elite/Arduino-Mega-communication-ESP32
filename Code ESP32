@@ -1,0 +1,22 @@
+void setup() {
+  Serial.begin(115200);         // Serial monitor
+  Serial2.begin(9600, SERIAL_8N1, 16, 17); // UART2 với D16 là RX và D17 là TX
+
+  Serial.println("ESP32 is ready");
+}
+
+void loop() {
+  // Nhận dữ liệu từ Arduino Mega
+  if (Serial2.available()) {
+    String message = Serial2.readString();
+    Serial.println("Received from Arduino Mega: " + message);
+  }
+
+  // Nhận dữ liệu từ bàn phím và gửi đến Arduino Mega
+  if (Serial.available()) {
+    String input = Serial.readString();
+    Serial2.println(input);
+  }
+
+  delay(100); // Giảm tải CPU
+}
